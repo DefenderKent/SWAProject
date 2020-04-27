@@ -12,20 +12,6 @@
           <input type="email" name="username" id="username" class="login-input" />
         </div>
       </div>
-
-      <div class="form-control">
-        <div class="loginInput mb30">
-          <label for="password">Пароль</label>
-          <input type="password" name="password" id="password" class="login-input" />
-        </div>
-      </div>
-      <div class="form-control">
-        <div class="removepassword">
-          <router-link :to="{name:'removepassword'}">Забыли пароль?</router-link>
-          <!-- <a href="#">Забыли пароль?</a> -->
-        </div>
-      </div>
-
       <div class="form-control">
         <button type="submit" class="btn-submit">Войти</button>
       </div>
@@ -35,8 +21,7 @@
 
 <script>
 export default {
-  name: "v-login",
-  components: {}
+  name: "v-remove-password"
 };
 </script>
 <style lang="scss" scoped>

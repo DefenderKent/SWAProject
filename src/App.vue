@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <v-login></v-login>
+    Стартовая страница
+    <router-view />
   </div>
 </template>
 <script>
-import vLogin from "./components/v-login";
 export default {
-  components: {
-    vLogin
-  }
+  components: {}
 };
 </script>
 <style lang="scss">
