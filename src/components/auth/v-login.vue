@@ -1,42 +1,45 @@
 <template>
-  <div class="login-form">
+  <form class="login-form" @submit.prevent="submitHandler">
     <div class="login-form__title">
       <h2 class="login-heading">Войти</h2>
       <a href="#">Регистрация</a>
     </div>
 
-    <form action="#">
-      <div class="form-control">
-        <div class="loginInput mb70">
-          <label for="email">Username/Email</label>
-          <input type="email" name="username" id="username" class="login-input" />
-        </div>
+    <div class="form-control">
+      <div class="loginInput mb70">
+        <label for="email">Username/Email</label>
+        <input type="email" name="username" id="username" class="login-input" />
       </div>
+    </div>
 
-      <div class="form-control">
-        <div class="loginInput mb30">
-          <label for="password">Пароль</label>
-          <input type="password" name="password" id="password" class="login-input" />
-        </div>
+    <div class="form-control">
+      <div class="loginInput mb30">
+        <label for="password">Пароль</label>
+        <input type="password" name="password" id="password" class="login-input" />
       </div>
-      <div class="form-control">
-        <div class="removepassword">
-          <router-link :to="{name:'removepassword'}">Забыли пароль?</router-link>
-          <!-- <a href="#">Забыли пароль?</a> -->
-        </div>
+    </div>
+    <div class="form-control">
+      <div class="removepassword">
+        <router-link :to="{name:'removepassword'}">Забыли пароль?</router-link>
+        <!-- <a href="#">Забыли пароль?</a> -->
       </div>
+    </div>
 
-      <div class="form-control">
-        <button type="submit" class="btn-submit">Войти</button>
-      </div>
-    </form>
-  </div>
+    <div class="form-control">
+      <button type="submit" class="btn-submit">Войти</button>
+    </div>
+  </form>
 </template>
 
 <script>
 export default {
   name: "v-login",
-  components: {}
+  components: {},
+  methods: {
+    submitHandler() {
+      this.$router.push("/");
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

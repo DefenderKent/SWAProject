@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "../components/v-login";
+import Login from "../components/auth/v-login";
 import App from "../App";
 
-import RemovePassword from "../components/v-remove-password";
+import RemovePassword from "../components/auth/v-remove-password";
 
 Vue.use(VueRouter);
 const routes = [
