@@ -4,7 +4,6 @@
       type="password" 
       class="password"
       v-if='!showPassword'
-      :key="hidePassword"
       :value="value"
       @input="$emit('input', $event.target.value)"
     >
@@ -12,7 +11,6 @@
       type="text" 
       class="password"
       v-else
-      :key="showPassword"
       :value="value"
       @input="$emit('input', $event.target.value)"
     >
