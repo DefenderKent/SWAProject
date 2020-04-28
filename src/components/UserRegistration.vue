@@ -216,6 +216,11 @@ export default {
         this.$v.$touch()
         return
       }
+      //Сбрасывает(reset) все поля после отправки формы. Не знаю, норм ли так делать
+      console.log(this.$data)
+      for (let key in this.$data) {
+        this.$data[key] = ''
+      }
     },
   }
 }
