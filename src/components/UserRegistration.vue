@@ -174,7 +174,7 @@ export default {
     },
     login: {
       required,
-      minLength: minLength(6),
+      minLength: minLength(3),
       maxLength: maxLength(55)
     },
     password: {
