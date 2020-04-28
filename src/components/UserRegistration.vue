@@ -8,13 +8,22 @@
           <input 
             type="email"
             class="form-fields__input"
+            :class="{invalid: $v.email.$dirty && !$v.email.required}"
             v-model.trim="email"
           />
         </label>
-        <small v-if="($v.email.$dirty && !$v.email.required) || (!$v.email.email)">
+        <small 
+          v-if="($v.email.$dirty && !$v.email.required) || (!$v.email.email)"
+          class="err-message"
+        >
           Введите действительный e-mail
         </small>
-        <small v-else-if="uniqueEmail">Данный email уже занят</small>
+        <small 
+          v-else-if="uniqueEmail"
+          class="err-message"
+        >
+          Данный email уже занят
+        </small>
       </div>
       <div class="form-control">
         <label class="form-fields">
@@ -22,34 +31,56 @@
           <input 
             type="text"
             class="form-fields__input"
+            :class="{invalid: $v.login.$dirty && !$v.login.required}"
             v-model.trim="login"
           />
         </label>
-        <small v-if="$v.login.$dirty && !$v.login.required">
+        <small 
+          v-if="$v.login.$dirty && !$v.login.required"
+          class="err-message"
+        >
           Введите логин
         </small>
-        <small v-else-if="!$v.login.minLength || !$v.login.maxLength">
+        <small 
+          v-else-if="!$v.login.minLength || !$v.login.maxLength"
+          class="err-message"
+        >
           Логин должен содержать не менее {{$v.login.$params.minLength.min}} 
           и не более {{$v.login.$params.maxLength.max}} символов.
           Сейчас логин состоит из {{$v.login.$model.length}} символов.
         </small>
-        <small v-else-if="uniqueLogin">
+        <small 
+          v-else-if="uniqueLogin"
+          class="err-message"
+        >
           Данный логин уже занят
         </small>
       </div>
       <div class="form-control">
         <label class="form-fields">
           <span>Пароль</span>
-          <input 
+          <app-input-password 
+            class="form-fields__input"
+            :class="{invalid: $v.password.$dirty && !$v.password.required}"
+            v-model="password"
+          >
+          </app-input-password>
+          <!-- <input 
             type="password"
             class="form-fields__input"
             v-model="password"
-          />
+          /> -->
         </label>
-        <small v-if="$v.password.$dirty && !$v.password.required">
+        <small 
+          v-if="$v.password.$dirty && !$v.password.required"
+          class="err-message"
+        >
           Введите пароль
         </small>
-        <small v-else-if="!$v.password.minLength || !$v.password.maxLength">
+        <small 
+          v-else-if="!$v.password.minLength || !$v.password.maxLength"
+          class="err-message"
+        >
           Пароль должен содержать не менее {{$v.password.$params.minLength.min}} 
           и не более {{$v.password.$params.maxLength.max}} символов.
           Сейчас пароль состоит из {{$v.password.$model.length}} символов.
@@ -58,33 +89,58 @@
       <div class="form-control">
         <label class="form-fields">
           <span>Подтверждение пароля</span>
-          <input 
+          <app-input-password 
+            class="form-fields__input"
+            :class="{invalid: $v.repeatPassword.$dirty && !$v.repeatPassword.required}"
+            v-model="repeatPassword"
+          >
+          </app-input-password>
+          <!-- <input 
             type="password"
             class="form-fields__input"
             v-model="repeatPassword"
-          />
+          /> -->
         </label>
-        <small v-if="$v.repeatPassword.$dirty && !$v.repeatPassword.required">
+        <small 
+          v-if="$v.repeatPassword.$dirty && !$v.repeatPassword.required"
+          class="err-message"
+        >
           Введите пароль еще раз
         </small>
-        <small v-else-if="!$v.repeatPassword.minLength || !$v.repeatPassword.maxLength">
+        <small 
+          v-else-if="!$v.repeatPassword.minLength || !$v.repeatPassword.maxLength"
+          class="err-message"
+        >
           Пароль должен содержать не менее {{$v.password.$params.minLength.min}} 
           и не более {{$v.password.$params.maxLength.max}} символов.
           Сейчас пароль состоит из {{$v.repeatPassword.$model.length}} символов.
         </small>
-        <small v-else-if="!$v.repeatPassword.sameAsPassword">Пароли не совпадают</small>
+        <small 
+          v-else-if="!$v.repeatPassword.sameAsPassword"
+          class="err-message"
+        >
+          Пароли не совпадают
+        </small>
       </div>
       <div class="form-control">
         <label class="form-fields">
           <span>Выберите роль</span>
-          <select name="select-role" class="form-fields__input" v-model="selected">
+          <select 
+            name="select-role" 
+            class="form-fields__input select-role" 
+            :class="{invalid: $v.selected.$dirty && !$v.selected.required}"
+            v-model="selected"
+          >
             <option disabled value="">Выберите один из вариантов</option>
             <option value="Заказчик">Заказчик</option>
             <option value="Исполнитель">Исполнитель</option>
             <option value="Посредник">Посредник</option>
           </select>
         </label>
-        <small v-if="$v.selected.$dirty && !$v.selected.required">
+        <small 
+          v-if="$v.selected.$dirty && !$v.selected.required"
+          class="err-message"
+        >
           Выберите вашу роль в системе
         </small>
       </div>
@@ -104,26 +160,12 @@
 
 <script>
 import { required, minLength, maxLength, sameAs, email } from 'vuelidate/lib/validators'
+import AppInputPassword from './AppInputPassword.vue'
 
 export default {
   name:  'UserRegistration',
-  data() {
-    return {
-      email: '',
-      login: '',
-      password: '',
-      repeatPassword: '',
-      selected: '',
-      agreement: false
-    }
-  },
-  computed: {
-    uniqueEmail() {
-      return false
-    },
-    uniqueLogin() {
-      return false
-    }
+  components: {
+    AppInputPassword
   },
   validations: {
     email: {
@@ -148,6 +190,24 @@ export default {
     },
     selected: {
       required
+    }
+  },
+  data() {
+    return {
+      email: '',
+      login: '',
+      password: '',
+      repeatPassword: '',
+      selected: '',
+      agreement: false
+    }
+  },
+  computed: {
+    uniqueEmail() {
+      return false
+    },
+    uniqueLogin() {
+      return false
     }
   },
   methods: {
@@ -215,7 +275,24 @@ export default {
     &__input {
       height: 5.2rem;
       padding: 0 1rem;
+      border: 1px solid #000000;
+      font-weight: 300;
+      font-size: 2.4rem;
+      line-height: 2.8rem;
+      color: #000000;
     }
+  }
+
+  .invalid {
+    border-color: red;
+  }
+
+  .err-message {
+    color: red;
+  }
+
+  .select-role {
+    cursor: pointer;
   }
 
   .agreement {
