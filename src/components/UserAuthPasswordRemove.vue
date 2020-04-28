@@ -1,27 +1,29 @@
 <template>
-  <div class="login-form">
+  <form class="login-form" @submit.prevent="submitHandler">
     <div class="login-form__title">
-      <h2 class="login-heading">Войти</h2>
-      <a href="#">Регистрация</a>
+      <h2 class="login-heading">Восстановить пароль</h2>
     </div>
-
-    <form action="#">
-      <div class="form-control">
-        <div class="loginInput mb70">
-          <label for="email">Username/Email</label>
-          <input type="email" name="username" id="username" class="login-input" />
-        </div>
+    <div class="form-control">
+      <div class="loginInput mb70">
+        <label for="email">Username/Email</label>
+        <input type="email" name="username" id="username" class="login-input" />
       </div>
-      <div class="form-control">
-        <button type="submit" class="btn-submit">Войти</button>
-      </div>
-    </form>
-  </div>
+    </div>
+    <div class="form-control">
+      <button type="submit" class="btn-submit">Отправить</button>
+    </div>
+  </form>
 </template>
 
 <script>
 export default {
-  name: "v-remove-password"
+  name: "UserAuthPasswordRemove",
+  components: {},
+  methods: {
+    submitHandler() {
+      this.$router.push("/login");
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -40,7 +42,7 @@ export default {
 
     font-style: normal;
     font-weight: normal;
-    font-size: 54px;
+    font-size: 35px;
     line-height: 63px;
   }
   &__title {

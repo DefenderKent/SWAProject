@@ -1,18 +1,18 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "../components/auth/v-login";
+import UserAuth from "../components/UserAuth";
 import App from "../App";
 
-import RemovePassword from "../components/auth/v-remove-password";
+import UserAuthPasswordRemove from "../components/UserAuthPasswordRemove";
 
 Vue.use(VueRouter);
 const routes = [
   { path: "/", name: "home", component: App },
-  { path: "/login", name: "login", component: Login },
+  { path: "/login", name: "login", component: UserAuth },
   {
     path: "/removepassword",
     name: "removepassword",
-    component: RemovePassword,
+    component: UserAuthPasswordRemove,
   },
 ];
 const router = new VueRouter({

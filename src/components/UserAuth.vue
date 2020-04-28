@@ -4,18 +4,36 @@
       <h2 class="login-heading">Войти</h2>
       <a href="#">Регистрация</a>
     </div>
-
     <div class="form-control">
       <div class="loginInput mb70">
         <label for="email">Username/Email</label>
-        <input type="email" name="username" id="username" class="login-input" />
+        <input
+          type="text"
+          id="username"
+          v-model="username"
+          class="login-input"
+          :class="{invalid: ($v.username.$dirty && !$v.username.required)}"
+        />
+        <small v-if="($v.username.$dirty && !$v.username.required)">Введите логин</small>
+        <!-- проверка на совпадение пароля и логина  -->
+        <small
+          v-else-if="($v.username.$dirty &&!$v.username.required)||($v.username.$dirty &&!$v.username.minLength)"
+        >Не верный пароль или логин</small>
       </div>
     </div>
-
     <div class="form-control">
       <div class="loginInput mb30">
         <label for="password">Пароль</label>
-        <input type="password" name="password" id="password" class="login-input" />
+        <input
+          type="password"
+          id="password"
+          class="login-input"
+          v-model="password"
+          :class="{invalid: ($v.password.$dirty && !$v.password.required)}"
+        />
+        <small v-if="($v.password.$dirty && !$v.password.required)">Введите пароль</small>
+        <!-- проверка на совпадение пароля и логина  -->
+        <small v-else-if="($v.password.$dirty && !$v.password.required)">Не верный пароль или логин</small>
       </div>
     </div>
     <div class="form-control">
@@ -24,7 +42,6 @@
         <!-- <a href="#">Забыли пароль?</a> -->
       </div>
     </div>
-
     <div class="form-control">
       <button type="submit" class="btn-submit">Войти</button>
     </div>
@@ -32,12 +49,30 @@
 </template>
 
 <script>
+import { required, minLength } from "vuelidate/lib/validators";
 export default {
-  name: "v-login",
+  name: "UserAuth",
+  data: () => ({
+    username: "",
+    password: ""
+  }),
+  validations: {
+    username: { required, minLength: minLength(4) },
+    password: { required }
+  },
   components: {},
   methods: {
     submitHandler() {
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+      const fromData = {
+        username: this.username,
+        password: this.password
+      };
       this.$router.push("/");
+      console.log(fromData);
     }
   }
 };
@@ -58,7 +93,7 @@ export default {
 
     font-style: normal;
     font-weight: normal;
-    font-size: 54px;
+    font-size: 35px;
     line-height: 63px;
   }
   &__title {
@@ -122,5 +157,8 @@ export default {
   padding: 12px 87px;
   color: #000000;
   margin-top: 50px;
+}
+.invalid {
+  background: orangered;
 }
 </style>
