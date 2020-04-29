@@ -5,8 +5,10 @@
     </div>
     <div class="form-control">
       <div class="loginInput mb70">
-        <label for="email">Username/Email</label>
-        <input type="email" name="username" id="username" class="login-input" />
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" class="login-input" v-model="email" />
+        <small v-if="($v.email.$dirty && !$v.email.required)">Поле должно быть заполнено</small>
+        <small v-else-if="!$v.email.email">Неверный e-mail</small>
       </div>
     </div>
     <div class="form-control">
@@ -16,12 +18,28 @@
 </template>
 
 <script>
+import { required, email } from "vuelidate/lib/validators";
 export default {
   name: "UserAuthPasswordRemove",
+  data: () => ({
+    email: ""
+  }),
+  validations: {
+    email: { required, email }
+  },
   components: {},
+  computed: {
+    uniqueEmail() {
+      return false;
+    }
+  },
   methods: {
     submitHandler() {
-      this.$router.push("/login");
+      if (this.$v.$invalid) {
+        this.$v.$touch();
+        return;
+      }
+      this.$router.push("/respawnpassword");
     }
   }
 };
@@ -68,6 +86,9 @@ export default {
     font-size: 24px;
     line-height: 28px;
     margin-bottom: 10px;
+  }
+  small {
+    text-align: left;
   }
 }
 .login-input {

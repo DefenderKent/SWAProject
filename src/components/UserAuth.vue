@@ -16,24 +16,21 @@
           :class="{invalid: ($v.username.$dirty && !$v.username.required)}"
         />
         <small v-if="($v.username.$dirty && !$v.username.required)">Введите логин</small>
-        <!-- проверка на совпадение пароля и логина  -->
-        <small v-else-if="($v.username.$dirty &&!$v.username.required)">Не верный пароль или логин</small>
       </div>
     </div>
+
     <div class="form-control">
       <div class="loginInput mb30">
         <label for="password">Пароль</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          class="login-input"
+        <app-input-password
+          class="form-fields__input login-input"
+          :class="{invalid: $v.password.$dirty && !$v.password.required}"
           v-model="password"
-          :class="{invalid: ($v.password.$dirty && !$v.password.required)}"
-        />
+        ></app-input-password>
         <small v-if="($v.password.$dirty && !$v.password.required)">Введите пароль</small>
       </div>
     </div>
+
     <div class="form-control">
       <div class="removepassword">
         <router-link :to="{name:'removepassword'}">Забыли пароль?</router-link>
@@ -50,6 +47,7 @@
 </template>
 
 <script>
+import AppInputPassword from "./AppInputPassword.vue";
 import { required } from "vuelidate/lib/validators";
 export default {
   name: "UserAuth",
@@ -61,7 +59,7 @@ export default {
     username: { required },
     password: { required }
   },
-  components: {},
+  components: { AppInputPassword },
   methods: {
     submitHandler() {
       if (this.$v.$invalid) {
@@ -76,7 +74,7 @@ export default {
       this.$store
         .dispatch("loginUser", user)
         .then(() => {
-          this.$router.push("/");
+          // this.$router.push("/");
         })
         .catch(() => {
           err => console.log(err);
@@ -175,6 +173,16 @@ export default {
   margin-top: 50px;
 }
 .invalid {
-  background: orangered;
+}
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  &__input {
+    border: 1px solid #000000;
+    font-weight: 300;
+    font-size: 2.4rem;
+    line-height: 2.8rem;
+    color: #000000;
+  }
 }
 </style>
