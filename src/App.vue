@@ -6,13 +6,15 @@
 
 <style lang="scss">
 @import "@/assets/style/reset.scss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
   html {
     font-size: 10px;    
   }
 
   #app {
-    height: 100%;
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
