@@ -4,6 +4,7 @@ import UserAuth from "../components/UserAuth";
 import App from "../App";
 
 import UserAuthPasswordRemove from "../components/UserAuthPasswordRemove";
+import UserAuthPasswordRespawn from "../components/UserAuthPasswordRespawn";
 
 Vue.use(VueRouter);
 const routes = [
@@ -13,6 +14,11 @@ const routes = [
     path: "/removepassword",
     name: "removepassword",
     component: UserAuthPasswordRemove,
+  },
+  {
+    path: "/respawnpassword",
+    name: "respawnpassword",
+    component: UserAuthPasswordRespawn,
   },
 ];
 const router = new VueRouter({
