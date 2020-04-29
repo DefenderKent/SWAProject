@@ -8,7 +8,7 @@
           <input 
             type="email"
             class="form-fields__input"
-            :class="{invalid: $v.email.$dirty && !$v.email.required}"
+            :class="{invalid: ($v.email.$dirty && !$v.email.required) || uniqueEmail}"
             @blur="onCheckUniqueEmail"
             v-model.trim="email"
           />
@@ -32,7 +32,7 @@
           <input 
             type="text"
             class="form-fields__input"
-            :class="{invalid: $v.login.$dirty && !$v.login.required}"
+            :class="{invalid: ($v.login.$dirty && !$v.login.required) || uniqueLogin}"
             @blur="onCheckUniqueLogin"
             v-model.trim="login"
           />
@@ -214,12 +214,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      if (this.$v.$invalid) {
-        this.$v.$touch()
-        return
-      }
-
-      if (this.uniqueLogin || this.uniqueEmail) { 
+      if (this.$v.$invalid || this.uniqueLogin || this.uniqueEmail) {
         this.$v.$touch()
         return
       }
@@ -227,6 +222,7 @@ export default {
       this.$store.dispatch('USER_REGISTRATION', this.$data)
         .then(() => {
           //здесь еще нужно будет проверять статус запроса, по идее...
+          //сделаю когда будет api
           this.$router.push('/letter-sent')
         })
         .catch(err => {
@@ -235,13 +231,15 @@ export default {
         })
     },
     onCheckUniqueEmail() {
-      //срабаотывает при расфокусировке инпута
-      //но по хорошему, думаю стоит использовать debounce или throttling или что-то такое
+      //срабатывает при расфокусировке инпута
+      //но по хорошему, думаю стоит использовать debounce или throttling или что-то такое.
+      //Сделаю когда будет api
       this.$store.dispatch('CHECK_UNIQUE_EMAIL', this.$data.email)
     },
     onCheckUniqueLogin() {
-      //срабаотывает при расфокусировке инпута
+      //срабатывает при расфокусировке инпута
       //но по хорошему, думаю стоит использовать debounce или throttling или что-то такое
+      //Сделаю когда будет api
       this.$store.dispatch('CHECK_UNIQUE_LOGIN', this.$data.login)
     }
   }

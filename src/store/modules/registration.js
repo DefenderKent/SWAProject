@@ -102,12 +102,12 @@ const registration = {
         }, 1000)
       })
       
-      //Примерный запрос на регистрацию
+      //Примерный запрос на проверку уникальности почты
       // return new Promise((resolve, reject) => {
       //   commit('CHECK_UNIQUE_EMAIL_REQUEST')
       //   axios({
       //     url,
-      //     data: user,
+      //     data: email,
       //     method: 'POST'
       //   })
       //     .then(resp => {
@@ -142,12 +142,12 @@ const registration = {
         }, 1000)
       })
       
-      //Примерный запрос на регистрацию
+      //Примерный запрос на проверку уникальности логина
       // return new Promise((resolve, reject) => {
       //   commit('CHECK_UNIQUE_LOGIN_REQUEST')
       //   axios({
       //     url,
-      //     data: user,
+      //     data: login,
       //     method: 'POST'
       //   })
       //     .then(resp => {
