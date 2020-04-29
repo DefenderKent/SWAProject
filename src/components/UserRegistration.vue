@@ -9,6 +9,7 @@
             type="email"
             class="form-fields__input"
             :class="{invalid: $v.email.$dirty && !$v.email.required}"
+            @blur="onCheckUniqueEmail"
             v-model.trim="email"
           />
         </label>
@@ -32,6 +33,7 @@
             type="text"
             class="form-fields__input"
             :class="{invalid: $v.login.$dirty && !$v.login.required}"
+            @blur="onCheckUniqueLogin"
             v-model.trim="login"
           />
         </label>
@@ -204,10 +206,10 @@ export default {
   },
   computed: {
     uniqueEmail() {
-      return false
+      return !this.$store.getters.uniqueEmail
     },
     uniqueLogin() {
-      return false
+      return !this.$store.getters.uniqueLogin
     }
   },
   methods: {
@@ -216,14 +218,32 @@ export default {
         this.$v.$touch()
         return
       }
-      //Сбрасывает(reset) все поля после отправки формы. Не знаю, норм ли так делать
-      console.log(this.$data)
-      for (let key in this.$data) {
-        this.$data[key] = ''
+
+      if (this.uniqueLogin || this.uniqueEmail) { 
+        this.$v.$touch()
+        return
       }
 
-      this.$router.push('/letter-sent')
+      this.$store.dispatch('USER_REGISTRATION', this.$data)
+        .then(() => {
+          //здесь еще нужно будет проверять статус запроса, по идее...
+          this.$router.push('/letter-sent')
+        })
+        .catch(err => {
+          console.log(err)
+          alert(err)
+        })
     },
+    onCheckUniqueEmail() {
+      //срабаотывает при расфокусировке инпута
+      //но по хорошему, думаю стоит использовать debounce или throttling или что-то такое
+      this.$store.dispatch('CHECK_UNIQUE_EMAIL', this.$data.email)
+    },
+    onCheckUniqueLogin() {
+      //срабаотывает при расфокусировке инпута
+      //но по хорошему, думаю стоит использовать debounce или throttling или что-то такое
+      this.$store.dispatch('CHECK_UNIQUE_LOGIN', this.$data.login)
+    }
   }
 }
 </script>
