@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import UserRegistration from '../components/UserRegistration.vue'
+// import MailConfirmationPending from'../components/MailConfirmationPending.vue'
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,10 @@ Vue.use(VueRouter)
       {
         path: 'sign_up',
         component: UserRegistration
+      },
+      {
+        path: 'letter-sent',
+        component: () => import('../components/MailConfirmationPending.vue')
       }
     ]
   }

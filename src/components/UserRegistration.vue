@@ -221,6 +221,8 @@ export default {
       for (let key in this.$data) {
         this.$data[key] = ''
       }
+
+      this.$router.push('/letter-sent')
     },
   }
 }
@@ -232,7 +234,7 @@ export default {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 8rem 0 ;
+    padding: 8rem 0;
   }
 
   .registr-form {
@@ -313,6 +315,7 @@ export default {
   .btn {
     width: 23.9rem;
     height: 5.1rem;
+    font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 2.4rem;
     line-height: 2.8rem;
