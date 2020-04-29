@@ -6,9 +6,10 @@
     </div>
     <div class="form-control">
       <div class="loginInput mb70">
-        <label for="email">Username/Email</label>
+        <label for="username">Username/Email</label>
         <input
           type="text"
+          name="username"
           id="username"
           v-model="username"
           class="login-input"
@@ -16,9 +17,7 @@
         />
         <small v-if="($v.username.$dirty && !$v.username.required)">Введите логин</small>
         <!-- проверка на совпадение пароля и логина  -->
-        <small
-          v-else-if="($v.username.$dirty &&!$v.username.required)||($v.username.$dirty &&!$v.username.minLength)"
-        >Не верный пароль или логин</small>
+        <small v-else-if="($v.username.$dirty &&!$v.username.required)">Не верный пароль или логин</small>
       </div>
     </div>
     <div class="form-control">
@@ -26,30 +25,32 @@
         <label for="password">Пароль</label>
         <input
           type="password"
+          name="password"
           id="password"
           class="login-input"
           v-model="password"
           :class="{invalid: ($v.password.$dirty && !$v.password.required)}"
         />
         <small v-if="($v.password.$dirty && !$v.password.required)">Введите пароль</small>
-        <!-- проверка на совпадение пароля и логина  -->
-        <small v-else-if="($v.password.$dirty && !$v.password.required)">Не верный пароль или логин</small>
       </div>
     </div>
     <div class="form-control">
       <div class="removepassword">
         <router-link :to="{name:'removepassword'}">Забыли пароль?</router-link>
-        <!-- <a href="#">Забыли пароль?</a> -->
       </div>
     </div>
     <div class="form-control">
+      <div>
+        <small>{{errorMessage}}</small>
+      </div>
+
       <button type="submit" class="btn-submit">Войти</button>
     </div>
   </form>
 </template>
 
 <script>
-import { required, minLength } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 export default {
   name: "UserAuth",
   data: () => ({
@@ -57,7 +58,7 @@ export default {
     password: ""
   }),
   validations: {
-    username: { required, minLength: minLength(4) },
+    username: { required },
     password: { required }
   },
   components: {},
@@ -67,12 +68,24 @@ export default {
         this.$v.$touch();
         return;
       }
-      const fromData = {
+      const user = {
         username: this.username,
         password: this.password
       };
-      this.$router.push("/");
-      console.log(fromData);
+
+      this.$store
+        .dispatch("loginUser", user)
+        .then(() => {
+          this.$router.push("/");
+        })
+        .catch(() => {
+          err => console.log(err);
+        });
+    }
+  },
+  computed: {
+    errorMessage() {
+      return this.$store.getters.errorMessage;
     }
   }
 };
@@ -119,6 +132,9 @@ export default {
     font-size: 24px;
     line-height: 28px;
     margin-bottom: 10px;
+  }
+  small {
+    text-align: left;
   }
 }
 .login-input {
